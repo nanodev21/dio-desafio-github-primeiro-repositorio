@@ -225,20 +225,6 @@ origin (apelido que demos ao nosso link no GitHub)
 
 CLI:
 git push origin master   <- master é a branch para qual estamos enviando ou main
-Resultado:
-The authenticity of host 'github.com (20.207.73.82)' can't be established.
-ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
-This key is not known by any other names
-Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added 'github.com' (ED25519) to the list of known hosts.
-Enumerating objects: 11, done.
-Counting objects: 100% (11/11), done.
-Delta compression using up to 4 threads
-Compressing objects: 100% (6/6), done.
-Writing objects: 100% (11/11), 1.02 KiB | 116.00 KiB/s, done.
-Total 11 (delta 0), reused 0 (delta 0), pack-reused 0
-To github.com:nanodev21/Livro-Receitas.git
- * [new branch]      master -> master
 
 
 O GitHub já lê o arquivo README.md que está fora do diretório logo de cara, para informar do que se trata...
@@ -250,7 +236,7 @@ git pull origin master
 
 Clonar:
 CLI:
-git clone url pega no github
+git clone url que foi copiada no github (SSH)
 
 
 
