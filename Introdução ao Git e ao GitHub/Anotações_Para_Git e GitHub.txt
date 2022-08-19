@@ -1,0 +1,269 @@
+Criar acesso via SSH (Par de Chaves)
+
+1) No Git bash do Windows (CLI - Command Line Interface) gerar o par de chaves pública e privada (no c/usersqCristiano):
+
+ssh-keygen -t ed25519 -C cristianorafael.com@gmail.com
+
+Local onde vai salvar a chave privada (o Git já passa o local):
+c/users/Cristiano/.ssh/id_ed25519  ( o "." significa que é um diretório/pasta oculta) <- Windows
+/home/cristiano/.ssh/id_ed25519    <- Linux
+
+Pede uma senha e pede para repetir ela.
+
+É criado o par de chaves:
+id_ed25519 (privada) e id_ed25519.pub (pública)
+
+Entrar no doretório criado e listar os arquivos com o "ls"
+
+Usar o comando "cat" para ler o contéudo do arquivo da chave pública: cat id_ed25519.pub
+
+Copiar a chave: do ssh...até o .com
+
+
+2) Voltar no site do GitHub no link SSH e GPG keys e adicionar nova chave, dando um nome para o computador,
+copiar o conteúdo da chave pública e adicionar.
+
+
+3) Voltar ao CLI na pasta .ssh  (Comando "pwd" mostra o local que estamos, caminho completo)
+e inicializar o SSH AGENT:
+eval $(ssh-agent -s)
+
+É criado o agente com um PID, com um número (Process ID) no meu caso PID 1983.
+
+Adicionar a chave privada ao agente para ele administrar os acessos:
+ssh-add id_ed25519  
+
+Digitar a senha para a chave e ela é adiocionada ao agente (identity) inclusive o e-mail.
+Resultado: Identity added: id_ed25519 (cristianorafael.com@gmail.com)
+
+
+Para clonar um repositório do GitHub para a nossa máquina, usar o link "CODE" e o endereço/url SSH
+
+Pelo CLI, deve-se estar no diretório que se deseja que o código seja copiado/clonado e usar o comando
+git clone "url do SSH"  + enter
+Continuar: Yes
+Vai clonar para o computador local.
+
+
+-----------------------------
+Iniciando o Git
+
+Criando o repositório dentro da pasta c/workspace
+
+No CLI:
+cd workspace/
+mkdir livro-receitas
+cd livro-receitas/
+git init (Initialized empty Git repository  in c/workspace/lvro-receitas/.git/
+ls (não aparece pois é pasta oculta ".")
+ls -a (lista pastas ocultas)
+cd .git/
+ls
+cd ..
+git config --global user.email "cristianorafael.com@gmail.com    (global= para todos repositórios)
+git config --global user.name Cristiano (depois mais para frente eu alterei para o meu username do GitHub (nanodev21)
+
+Criar um arquivo no /livro-receitas
+stogonoff.md (digitei errado, então deixei assim)
+
+no CLI:
+git add *
+git commit -m "commit inicial"
+
+Vem esse resultado:
+$ git commit -m "commit inicial"
+[master (root-commit) 70c1b99] commit inicial     <- inicio dos 40 dígitos do SHA1...
+ 1 file changed, 1 insertion(+)
+ create mode 100644 stogonoff.md
+
+Eu modifiquei o arquivo stognoff.md e salvei.
+
+
+CLI: 
+git status
+resultado:
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   stogonoff.md
+
+CLI:
+git add *  ou git add . ou git add -A  (Para adicionar tudo...)
+git commit -m "commit inicial 1"
+resultado:
+[master bdaea6c] commit inicial 1
+ 1 file changed, 6 insertions(+)
+
+git status
+resultado:
+On branch master
+nothing to commit, working tree clean
+
+Criei uma pasta receitas e movi o arquivo stogonoff para essa pasta
+
+CLI: 
+git add stogonoff.md receitas/
+
+git status
+Resultado:
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        renamed:    stogonoff.md -> receitas/stogonoff.md
+
+
+git commit -m "cria pasta receitas, move arquivo para receitas"
+Resultado:
+[master 5e80fbe] cria pasta receitas, move arquivo para receitas
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename stogonoff.md => receitas/stogonoff.md (100%)
+
+git status
+Resultado:
+On branch master
+nothing to commit, working tree clean
+
+
+CLI: dentro de livro-receitas/
+echo > README.md
+
+git status
+Resultado:
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        README.md
+
+git add *
+
+git status
+Resultado:
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   README.md
+
+git commit -m "adicionado index arquivo README.md"        <- manda para não modificado
+resultado:
+[master 9ee7ec8] adicionado index arquivo README.md
+ 1 file changed, 5 insertions(+)
+ create mode 100644 README.md
+
+git status
+resultado:
+On branch master
+nothing to commit, working tree clean
+
+--------------
+Usar o mesmo user.name no Git e no GitHub
+Eu havia usado no Git o user.name "Cristiano"
+Vou alterar para "nanodev21":
+
+CLI:
+git config --list  <- para verificar
+Resultado:
+diff.astextplain.textconv=astextplain
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+http.sslbackend=openssl
+http.sslcainfo=C:/Program Files/Git/mingw64/ssl/certs/ca-bundle.crt
+core.autocrlf=true
+core.fscache=true
+core.symlinks=true
+pull.rebase=false
+credential.helper=manager
+init.defaultbranch=master
+user.email=cristianorafael.com@gmail.com
+user.name=Cristiano
+core.repositoryformatversion=0
+core.filemode=false
+core.bare=false
+core.logallrefupdates=true
+core.symlinks=false
+core.ignorecase=true
+
+
+git config --global --unset user.name  <- para resetar
+
+git config --global user.name "nanodev21"
+
+git config -- list
+Resultado:
+diff.astextplain.textconv=astextplain
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+http.sslbackend=openssl
+http.sslcainfo=C:/Program Files/Git/mingw64/ssl/certs/ca-bundle.crt
+core.autocrlf=true
+core.fscache=true
+core.symlinks=true
+pull.rebase=false
+credential.helper=manager
+init.defaultbranch=master
+user.email=cristianorafael.com@gmail.com
+user.name=nanodev21
+
+
+Integrar repositório local com host remoto GitHub:
+CLI:
+//git remote add origin https://github.com/nanodev21/Livro-Receitas.git     (HTTPS não funcionou)
+git remote add origin git@github.com:nanodev21/Livro-Receitas.git (SSH)
+
+
+git remote -v
+Resultado:
+origin  git@github.com:nanodev21/Livro-Receitas.git (fetch)
+origin  git@github.com:nanodev21/Livro-Receitas.git (push)
+
+origin (apelido que demos ao nosso link no GitHub)
+
+
+CLI:
+git push origin master   <- master é a branch para qual estamos enviando ou main
+Resultado:
+The authenticity of host 'github.com (20.207.73.82)' can't be established.
+ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'github.com' (ED25519) to the list of known hosts.
+Enumerating objects: 11, done.
+Counting objects: 100% (11/11), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (11/11), 1.02 KiB | 116.00 KiB/s, done.
+Total 11 (delta 0), reused 0 (delta 0), pack-reused 0
+To github.com:nanodev21/Livro-Receitas.git
+ * [new branch]      master -> master
+
+
+O GitHub já lê o arquivo README.md que está fora do diretório logo de cara, para informar do que se trata...
+
+
+CLI:
+git pull origin master
+
+
+Clonar:
+CLI:
+git clone url pega no github
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
